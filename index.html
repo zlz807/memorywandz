@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#fcf8f6">
+<title>我们的回忆馆</title>
+<meta name="description" content="一些关于我们的小事">
+<meta property="og:title" content="">
+<meta property="og:description" content="一些关于我们的小事。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 30'%3E%3Cpath d='M16 27S3 18.4 3 9.6C3 4.6 6.8 2 10.5 2c2.3 0 4.2 1.2 5.5 3 1.3-1.8 3.2-3 5.5-3C25.2 2 29 4.6 29 9.6 29 18.4 16 27 16 27z' fill='none' stroke='%23b9798b' stroke-width='2'/%3E%3C/svg%3E">
+<style>
+/* =========================================================
+   我们的回忆馆 · 简约版
+   奶油白 + 灰粉 + 很淡的香芋紫
+   ========================================================= */
+:root{
+  --bg:#fcf9f7;
+  --paper:#ffffff;
+  --ink:#3f3539;
+  --ink-soft:#8b7a80;
+  --ink-faint:#b4a5aa;
+  --rose:#b9798b;
+  --rose-deep:#9d5f72;
+  --rose-soft:#f8eef0;
+  --line:#ece3e5;
+  --line-soft:rgba(90,60,70,.09);
+  --ease:cubic-bezier(.22,.8,.24,1);
+  --font-body:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Noto Sans SC",sans-serif;
+  --font-display:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Noto Sans SC",sans-serif;
+  --font-hand:"Kaiti SC","STKaiti","KaiTi","楷体",serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  font-family:var(--font-body);
+  background:
+    radial-gradient(900px 620px at 78% -8%, rgba(240,226,231,.55) 0%, rgba(240,226,231,0) 66%),
+    radial-gradient(760px 620px at 8% 8%, rgba(246,236,239,.6) 0%, rgba(246,236,239,0) 64%),
+    linear-gradient(180deg,#fdfaf8 0%,#fbf6f7 48%,#faf5f6 100%);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body.locked{overflow:hidden}
+[hidden]{display:none!important}
+::selection{background:#f3dfe4;color:#7e4557}
+a{color:inherit}
+button{font-family:inherit}
+img{max-width:100%}
+.page{width:min(1180px,calc(100% - 48px));margin-inline:auto}
+.grain{
+  position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.024;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+}
+.fx{position:fixed;inset:0;z-index:500;pointer-events:none;overflow:hidden}
+
+/* ---------- 通用 ---------- */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:"Arial Rounded MT Bold","PingFang SC",sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--rose);
+}
+.eyebrow::before{content:"";width:20px;height:1px;background:currentColor;opacity:.55}
+.eyebrow.center{justify-content:center}
+.eyebrow.center::after{content:"";width:20px;height:1px;background:currentColor;opacity:.55}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:13px 26px;border:1px solid var(--rose);border-radius:999px;
+  background:var(--rose);color:#fff;text-decoration:none;cursor:pointer;
+  font-size:13px;font-weight:500;letter-spacing:.08em;
+  transition:background .3s var(--ease),transform .3s var(--ease),border-color .3s;
+}
+.btn:hover{background:var(--rose-deep);border-color:var(--rose-deep);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn:focus-visible,.link-arrow:focus-visible,.brand:focus-visible,.nav-link:focus-visible,.music-btn:focus-visible,.intro-btn:focus-visible{outline:2px solid rgba(185,121,139,.55);outline-offset:4px}
+.btn-arrow{font-size:12px;letter-spacing:0}
+.link-arrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;letter-spacing:.1em;color:var(--ink-soft);text-decoration:none;
+  border-bottom:1px solid var(--line);padding-bottom:3px;
+  transition:color .25s,border-color .25s;
+}
+.link-arrow:hover{color:var(--rose-deep);border-color:#dcc1c8}
+.link-arrow span{transition:transform .25s var(--ease)}
+.link-arrow:hover span{transform:translateX(3px)}
+
+/* ---------- 顶部 ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:90;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:15px max(24px,calc((100vw - 1180px)/2));
+  background:rgba(252,249,247,.82);
+  border-bottom:1px solid rgba(90,60,70,.06);
+  backdrop-filter:blur(14px) saturate(1.1);-webkit-backdrop-filter:blur(14px) saturate(1.1);
+  opacity:0;transform:translateY(-10px);pointer-events:none;
+  transition:opacity .7s var(--ease) .1s,transform .7s var(--ease) .1s;
+}
+body.opened .nav{opacity:1;transform:none;pointer-events:auto}
+.brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:var(--font-display);font-size:13px;font-weight:500;letter-spacing:.1em;color:var(--ink);white-space:nowrap}
+.brand-heart{width:15px;height:14px;color:var(--rose);flex:none}
+.nav-right{display:flex;align-items:center;gap:4px}
+.nav-link{padding:7px 11px;border-radius:6px;font-size:11px;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;transition:.25s}
+.nav-link:hover{color:var(--rose-deep);background:rgba(255,255,255,.6)}
+.music-btn{
+  display:inline-flex;align-items:center;gap:6px;margin-left:6px;
+  padding:7px 12px;border:1px solid var(--line);border-radius:999px;
+  background:transparent;color:var(--ink-soft);cursor:pointer;
+  font-size:10px;letter-spacing:.08em;transition:.25s;
+}
+.music-btn:hover{border-color:#ddc5cc;color:var(--rose-deep)}
+.music-btn.playing{border-color:#e3cdd3;background:#fdf7f8;color:var(--rose-deep)}
+.music-note{font-size:13px;line-height:1;transform:translateY(-.5px)}
+.music-btn.playing .music-note{animation:notePulse 2.4s ease-in-out infinite}
+
+/* ---------- 开场 ---------- */
+.intro{
+  position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;
+  padding:30px 20px;overflow-y:auto;
+  background:
+    radial-gradient(700px 520px at 50% 38%,rgba(255,255,255,.9) 0%,rgba(255,255,255,0) 70%),
+    linear-gradient(160deg,#fdfaf8 0%,#fbf5f6 52%,#f8f1f3 100%);
+  transition:opacity .75s var(--ease),visibility .75s;
+}
+.intro.closing{opacity:0;visibility:hidden}
+.intro.gone{display:none}
+.intro::before{
+  content:"";position:absolute;width:min(560px,88vw);aspect-ratio:1;border-radius:50%;
+  border:1px solid rgba(185,121,139,.16);pointer-events:none;
+}
+.intro-inner{position:relative;z-index:2;width:min(520px,100%);text-align:center;padding:10px 0}
+.intro-heart{width:42px;margin:0 auto 28px;color:var(--rose)}
+.intro-heart svg{display:block;width:100%;height:auto;animation:heartPulse 4.8s ease-in-out infinite}
+.intro-kicker{
+  display:block;font-family:"Arial Rounded MT Bold","PingFang SC",sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:.34em;color:var(--ink-faint);
+}
+.intro-title{
+  margin:16px 0 0;font-family:var(--font-display);font-weight:300;
+  font-size:clamp(36px,5.6vw,52px);line-height:1.35;letter-spacing:.05em;color:var(--ink);
+}
+.intro-title span{display:inline-block;margin-left:.16em;color:var(--rose)}
+.intro-note{margin:20px 0 30px;font-size:13px;line-height:2;color:var(--ink-soft);letter-spacing:.03em}
+.intro-note b{color:var(--rose-deep);font-weight:500}
+.intro-btn{min-width:190px}
+.intro-tip{margin:20px 0 0;font-size:9px;letter-spacing:.18em;color:var(--ink-faint)}
+.intro-heart,.intro-kicker,.intro-title,.intro-note,.intro-btn,.intro-tip{opacity:0;animation:introIn .9s var(--ease) forwards}
+.intro-heart{animation-delay:.08s}
+.intro-kicker{animation-delay:.18s}
+.intro-title{animation-delay:.28s}
+.intro-note{animation-delay:.4s}
+.intro-btn{animation-delay:.52s}
+.intro-tip{animation-delay:.64s}
+
+/* ---------- 首屏 ---------- */
+.hero{
+  position:relative;min-height:92vh;min-height:92svh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:118px 0 78px;text-align:center;
+}
+.hero-heart{
+  position:absolute;left:50%;top:49%;width:min(600px,78vw);height:auto;
+  transform:translate(-50%,-50%);color:var(--rose);opacity:.1;pointer-events:none;
+}
+.hero > *:not(.hero-heart):not(.scroll-cue){position:relative;z-index:1}
+.hero h1{
+  margin:22px 0 0;font-family:var(--font-display);
+  font-size:clamp(48px,6.4vw,76px);font-weight:300;line-height:1.22;letter-spacing:.08em;color:var(--ink);
+}
+.hero h1 em{display:block;font-style:normal;margin-top:2px;color:var(--rose)}
+.hero-sub{margin:26px 0 0;font-size:14px;line-height:2;letter-spacing:.04em;color:var(--ink-soft)}
+.hero-meta{display:flex;align-items:center;justify-content:center;gap:13px;margin-top:22px;font-size:10px;letter-spacing:.14em;color:var(--ink-faint)}
+.hero-meta b{color:var(--rose-deep);font-weight:500}
+.hero-meta i{width:3px;height:3px;border-radius:50%;background:#d8c5cb}
+.hero-actions{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:24px;margin-top:32px}
+.scroll-cue{
+  position:absolute;left:50%;bottom:24px;transform:translateX(-50%);
+  font-size:9px;letter-spacing:.22em;color:var(--ink-faint);text-decoration:none;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.scroll-cue::after{content:"";width:1px;height:24px;background:linear-gradient(var(--rose),transparent);opacity:.5;animation:cueDrop 2.4s var(--ease) infinite}
+.hero .reveal{opacity:0;transform:translateY(18px)}
+body.opened .hero .reveal{opacity:1;transform:none;transition:opacity .9s var(--ease) var(--d,0s),transform .9s var(--ease) var(--d,0s)}
+
+/* ---------- 回忆 ---------- */
+.memories{position:relative;padding:80px 0 34px;scroll-margin-top:64px}
+.section-head{max-width:620px;margin:0 auto 56px;text-align:center}
+.section-head h2{
+  margin:15px 0 13px;font-family:var(--font-display);font-weight:300;
+  font-size:clamp(29px,3.4vw,40px);line-height:1.4;letter-spacing:.07em;color:var(--ink);
+}
+.section-head p{margin:0;font-size:12.5px;line-height:1.9;color:var(--ink-soft);letter-spacing:.03em}
+.field{position:relative;height:1200px;margin-top:4px}
+.field-center{
+  position:absolute;left:50%;top:45%;width:250px;transform:translate(-50%,-50%);
+  text-align:center;z-index:2;pointer-events:none;
+}
+.field-center::before{
+  content:"";position:absolute;left:50%;top:50%;width:244px;height:244px;
+  transform:translate(-50%,-50%);border:1px solid rgba(185,121,139,.14);border-radius:50%;
+}
+.center-count{display:block;font-family:var(--font-display);font-size:28px;font-weight:300;line-height:1;letter-spacing:.12em;color:var(--rose)}
+.center-count em{font-style:normal;font-size:12px;letter-spacing:.1em;color:var(--ink-faint)}
+.center-rule{display:block;width:1px;height:36px;margin:15px auto;background:var(--line)}
+.field-center p{margin:0;font-family:var(--font-hand);font-size:14px;line-height:1.9;color:var(--ink-soft);letter-spacing:.02em}
+
+.memory-card{
+  position:absolute;left:var(--x);top:var(--y);width:var(--w);z-index:1;
+  padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .8s var(--ease),transform .8s var(--ease);
+  -webkit-tap-highlight-color:transparent;
+}
+.memory-card.in{opacity:1;transform:none}
+.card-float{display:block;animation:cardFloat var(--dur,8s) ease-in-out var(--delay,0s) infinite}
+.card-paper{
+  position:relative;display:block;padding:10px;
+  background:var(--paper);border:1px solid var(--line-soft);border-radius:12px;
+  box-shadow:0 10px 30px rgba(100,65,78,.055);
+  transform:rotate(var(--r,0deg));
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease);
+}
+.memory-card:hover .card-paper,.memory-card:focus-visible .card-paper{
+  transform:rotate(0deg) translateY(-5px);
+  box-shadow:0 18px 42px rgba(100,65,78,.1);
+}
+.memory-card:focus-visible{outline:none}
+.memory-card:focus-visible .card-paper{outline:2px solid rgba(185,121,139,.5);outline-offset:3px}
+.scene-wrap{
+  position:relative;display:block;aspect-ratio:4/3;overflow:hidden;border-radius:6px;
+  background:linear-gradient(155deg,var(--c1,#faf1f3),var(--c2,#fff));
+}
+.scene-wrap::before{
+  content:"";position:absolute;left:50%;top:50%;width:148px;height:148px;
+  transform:translate(-50%,-50%);border:1px solid var(--accent);border-radius:50%;opacity:.16;
+}
+.scene-icon{
+  position:absolute;left:50%;top:50%;width:78px;height:78px;
+  transform:translate(-50%,-50%);color:var(--accent);opacity:.88;
+}
+.card-cover{position:absolute;inset:0;z-index:2;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s var(--ease),transform .7s var(--ease)}
+.scene-wrap.has-photo .card-cover{opacity:1}
+.scene-wrap.has-photo .scene-icon{opacity:0}
+.memory-card:hover .card-cover{transform:scale(1.025)}
+.card-body{display:block;padding:14px 6px 5px}
+.card-no{display:block;font-size:9px;letter-spacing:.22em;color:var(--ink-faint)}
+.card-title{display:block;margin-top:7px;font-family:var(--font-display);font-size:19px;font-weight:400;line-height:1.55;letter-spacing:.03em;color:var(--ink)}
+.memory-card.long-title .card-title{font-size:16.5px;letter-spacing:.01em}
+.card-sub{display:block;margin-top:3px;font-size:11px;line-height:1.75;color:var(--ink-soft)}
+.card-open{display:inline-flex;align-items:center;gap:4px;margin-top:12px;padding-bottom:2px;font-size:9.5px;letter-spacing:.08em;color:var(--rose);border-bottom:1px solid rgba(185,121,139,.3)}
+.card-open span{transition:transform .25s var(--ease)}
+.memory-card:hover .card-open span{transform:translateX(3px)}
+.field-hint{margin:34px 0 0;text-align:center;font-size:10px;letter-spacing:.14em;color:var(--ink-faint)}
+
+.theme-rose{--c1:#fbf1f4;--c2:#ffffff;--accent:#b9798b}
+.theme-blue{--c1:#f2f6f9;--c2:#ffffff;--accent:#7d95a8}
+.theme-sand{--c1:#faf6ee;--c2:#ffffff;--accent:#ac8a61}
+.theme-peach{--c1:#fbf3ed;--c2:#ffffff;--accent:#b98468}
+.theme-blush{--c1:#fbf0f3;--c2:#ffffff;--accent:#b7788c}
+.theme-sage{--c1:#f3f7f3;--c2:#ffffff;--accent:#7f9a86}
+.theme-cream{--c1:#faf7ef;--c2:#ffffff;--accent:#a58d63}
+.theme-lilac{--c1:#f7f3f8;--c2:#ffffff;--accent:#957e9b}
+
+/* ---------- 信 ---------- */
+.letter-section{padding:82px 0 60px;scroll-margin-top:64px}
+.letter-card{
+  position:relative;text-align:center;padding:62px 24px 56px;
+  background:rgba(255,255,255,.72);border:1px solid var(--line-soft);border-radius:16px;
+  box-shadow:0 12px 40px rgba(100,65,78,.035);
+}
+.letter-card h2{margin:14px 0 10px;font-family:var(--font-display);font-weight:300;font-size:clamp(27px,3vw,36px);line-height:1.4;letter-spacing:.07em}
+.letter-card h2 em{font-style:normal;color:var(--rose)}
+.letter-sub{margin:0;font-size:12px;line-height:1.9;color:var(--ink-soft);letter-spacing:.03em}
+.envelope{
+  position:relative;display:block;width:min(340px,82vw);margin:28px auto 0;
+  padding:0;border:0;background:transparent;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.env-svg{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 28px rgba(100,65,78,.12));transition:transform .45s var(--ease)}
+.envelope:hover .env-svg{transform:translateY(-5px)}
+.envelope.is-opening .env-svg{transform:translateY(-9px) scale(1.005)}
+.envelope:focus-visible{outline:2px solid rgba(185,121,139,.5);outline-offset:12px;border-radius:12px}
+.env-hint{display:block;margin-top:12px;font-size:9.5px;letter-spacing:.16em;color:var(--ink-faint)}
+.letter-tip{margin:14px 0 0;font-size:9px;letter-spacing:.16em;color:var(--ink-faint)}
+
+/* ---------- 未完待续 ---------- */
+.promise{padding:22px 0 70px;scroll-margin-top:64px}
+.promise-card{
+  text-align:center;padding:66px 24px 58px;background:rgba(255,255,255,.72);
+  border:1px solid var(--line-soft);border-radius:16px;box-shadow:0 12px 40px rgba(100,65,78,.035);
+}
+.promise-card h2{margin:15px 0 13px;font-family:var(--font-display);font-weight:300;font-size:clamp(29px,3.5vw,42px);line-height:1.42;letter-spacing:.07em}
+.promise-card h2 em{font-style:normal;color:var(--rose)}
+.promise-sub{margin:0;font-size:12px;line-height:1.9;color:var(--ink-soft)}
+.wishes{display:flex;flex-wrap:wrap;justify-content:center;gap:11px 22px;max-width:700px;margin:28px auto 0}
+.wish{position:relative;padding-left:12px;font-size:11px;line-height:1.8;color:var(--ink-soft);letter-spacing:.02em}
+.wish::before{content:"";position:absolute;left:0;top:.86em;width:3px;height:3px;border-radius:50%;background:var(--rose);opacity:.55}
+.love-btn{
+  display:inline-flex;align-items:center;gap:8px;margin:30px auto 0;padding:12px 24px;
+  border:1px solid var(--rose);border-radius:999px;background:transparent;
+  color:var(--rose-deep);font-size:12px;letter-spacing:.08em;cursor:pointer;
+  transition:background .3s,color .3s,transform .3s;
+}
+.love-btn:hover{background:var(--rose);color:#fff;transform:translateY(-1px)}
+.love-btn:active{transform:scale(.98)}
+.love-btn span{font-size:15px;line-height:1}
+.love-line{min-height:26px;margin:20px 0 0;font-family:var(--font-hand);font-size:17px;line-height:1.8;letter-spacing:.03em;color:var(--rose-deep)}
+.love-line.pop{animation:linePop .45s var(--ease)}
+.promise-sign{margin:12px 0 0;font-size:10px;letter-spacing:.12em;color:var(--ink-faint)}
+.promise-sign span{color:var(--rose)}
+.footer{padding:0 0 38px;text-align:center;font-size:9.5px;letter-spacing:.16em;color:var(--ink-faint);line-height:2}
+.footer span{color:var(--rose)}
+.footer .tiny{margin-top:2px;font-size:8.5px;letter-spacing:.2em;color:#c5b7bb}
+
+/* ---------- 滚动出现 ---------- */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .95s var(--ease),transform .95s var(--ease);transition-delay:var(--rd,0s)}
+.reveal.show{opacity:1;transform:none}
+
+/* ---------- 弹层 ---------- */
+.overlay{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  padding:24px;visibility:hidden;opacity:0;
+  transition:opacity .35s var(--ease),visibility .35s;
+}
+.overlay.open{visibility:visible;opacity:1}
+.overlay-backdrop{position:absolute;inset:0;background:rgba(48,34,39,.4);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.modal{
+  position:relative;z-index:1;display:grid;grid-template-columns:1.02fr .98fr;
+  width:min(960px,100%);height:min(84vh,660px);
+  background:var(--paper);border:1px solid rgba(255,255,255,.5);border-radius:16px;overflow:hidden;
+  box-shadow:0 34px 90px rgba(55,35,42,.28);
+  transform:translateY(18px) scale(.985);transition:transform .45s var(--ease);
+}
+.overlay.open .modal{transform:none}
+.modal-close{
+  position:absolute;right:14px;top:14px;z-index:12;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--line);background:rgba(255,255,255,.9);color:var(--ink-soft);
+  font-size:13px;line-height:1;cursor:pointer;transition:.25s;
+}
+.modal-close:hover{color:var(--rose-deep);border-color:#ddc5cc;transform:rotate(90deg)}
+.modal-close:focus-visible{outline:2px solid rgba(185,121,139,.55);outline-offset:3px}
+.modal-media{position:relative;display:flex;flex-direction:column;gap:11px;min-height:0;padding:18px;background:#fbf7f8}
+.stage{
+  position:relative;flex:1;min-height:0;overflow:hidden;border-radius:8px;
+  background:linear-gradient(155deg,var(--c1,#fbf1f4),var(--c2,#fff));
+  border:1px solid var(--line-soft);
+}
+.stage.has-photo{display:flex;align-items:center;justify-content:center;padding:20px}
+.photo-mat{
+  position:relative;display:flex;flex-direction:column;width:100%;height:100%;padding:9px;
+  background:#fff;border-radius:3px;box-shadow:0 14px 34px rgba(80,50,62,.13);
+}
+.photo-mat img{width:100%;flex:1;min-height:0;object-fit:contain;background:#f8f3f4}
+.gal-btn{
+  position:absolute;top:50%;z-index:5;width:32px;height:32px;margin-top:-16px;
+  border:1px solid var(--line);border-radius:50%;background:rgba(255,255,255,.9);
+  color:var(--ink-soft);font-size:17px;line-height:1;cursor:pointer;transition:.25s;
+}
+.gal-btn:hover{color:var(--rose-deep);border-color:#ddc5cc}
+.gal-btn.prev{left:9px}
+.gal-btn.next{right:9px}
+.gal-count{
+  position:absolute;left:50%;bottom:9px;transform:translateX(-50%);z-index:5;
+  padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.88);
+  font-size:9px;letter-spacing:.1em;color:var(--ink-soft);
+}
+.media-strip{display:flex;flex:0 0 auto;gap:7px;justify-content:center;min-height:0}
+.media-strip[hidden]{display:none}
+.thumb{
+  width:42px;height:42px;padding:0;border:1px solid var(--line);border-radius:3px;
+  overflow:hidden;background:#fff;cursor:pointer;opacity:.6;transition:.25s;
+}
+.thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.thumb.on{border-color:var(--rose);opacity:1}
+.thumb:focus-visible{outline:2px solid rgba(185,121,139,.55);outline-offset:2px}
+
+.illus{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;overflow:hidden}
+.illus-number{position:absolute;right:16px;top:8px;font-family:var(--font-display);font-size:72px;font-weight:300;line-height:1;letter-spacing:.02em;color:var(--accent);opacity:.09}
+.illus-ring{position:absolute;width:210px;height:210px;border:1px solid var(--accent);border-radius:50%;opacity:.16}
+.illus-icon{position:relative;z-index:1;width:106px;height:106px;color:var(--accent);opacity:.9}
+.illus-card{position:relative;z-index:1;margin-top:30px;padding:0 12px;text-align:center}
+.illus-card span{display:block;font-family:"Arial Rounded MT Bold",sans-serif;font-size:8px;font-weight:700;letter-spacing:.22em;color:var(--ink-faint)}
+.illus-card p{margin:6px 0 0;font-family:var(--font-hand);font-size:15px;line-height:1.8;color:var(--ink-soft)}
+
+.modal-copy{display:flex;flex-direction:column;min-height:0;padding:38px 36px 26px;overflow-y:auto;background:var(--paper)}
+.m-index{font-family:"Arial Rounded MT Bold",sans-serif;font-size:8px;font-weight:700;letter-spacing:.24em;color:var(--rose)}
+.modal-copy h3{margin:13px 0 7px;font-family:var(--font-display);font-weight:400;font-size:clamp(24px,2.6vw,31px);line-height:1.45;letter-spacing:.03em}
+.m-sub{margin:0;font-size:11px;letter-spacing:.04em;color:var(--ink-faint)}
+.m-rule{height:1px;margin:20px 0;background:var(--line-soft)}
+.m-note{margin:0;font-size:13.5px;line-height:2.05;letter-spacing:.01em;color:#6f5c63}
+.m-quote{margin:20px 0 0;padding:2px 0 2px 16px;border-left:1px solid var(--rose);font-family:var(--font-hand);font-size:16px;line-height:1.9;color:var(--rose-deep)}
+.m-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+.m-chip{display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--line);border-radius:999px;font-size:9px;letter-spacing:.04em;color:var(--ink-soft)}
+.m-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:18px;border-top:1px solid var(--line-soft)}
+.m-nav button{border:0;background:none;padding:7px 3px;color:var(--rose-deep);font-family:inherit;font-size:10.5px;letter-spacing:.02em;cursor:pointer}
+.m-nav button:hover{color:var(--rose)}
+.m-nav button:focus-visible{outline:2px solid rgba(185,121,139,.55);outline-offset:2px}
+.m-count{font-family:"Arial Rounded MT Bold",sans-serif;font-size:9px;letter-spacing:.16em;color:var(--ink-faint)}
+
+/* ---------- 信纸 ---------- */
+.letter-overlay .overlay-backdrop{background:rgba(48,34,39,.38)}
+.letter-paper{
+  position:relative;z-index:1;width:min(700px,100%);max-height:90vh;max-height:90dvh;overflow-y:auto;
+  padding:46px 54px 32px;background:#fffefb;border:1px solid var(--line);border-radius:8px;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 35px,rgba(236,204,213,.14) 35px 36px);
+  box-shadow:0 36px 90px rgba(55,35,42,.25);
+  transform:translateY(18px) scale(.99);transition:transform .45s var(--ease);
+}
+.letter-overlay.open .letter-paper{transform:none}
+.letter-paper::before{content:"";position:absolute;left:46px;top:0;bottom:0;width:1px;background:rgba(185,121,139,.16);pointer-events:none}
+.letter-paper .modal-close{right:12px;top:12px}
+.letter-head{position:relative;text-align:center;margin-bottom:6px}
+.letter-head h3{margin:10px 0 0;font-family:var(--font-display);font-weight:300;font-size:26px;letter-spacing:.08em;color:var(--ink)}
+.letter-greeting{position:relative;margin:24px 0 12px;font-family:var(--font-hand);font-size:20px;color:var(--rose-deep)}
+.letter-body{position:relative;font-family:var(--font-hand);font-size:17px;line-height:36px;color:#4c3d42}
+.letter-body p{margin:0 0 14px;opacity:0;animation:letterIn .7s var(--ease) forwards;animation-delay:calc(.14s * var(--i))}
+.letter-ps{position:relative;margin:22px 0 0;font-family:var(--font-hand);font-size:14px;line-height:1.9;color:var(--rose-deep)}
+.letter-sign{position:relative;margin:22px 0 0;text-align:right;font-family:var(--font-hand);font-size:17px;line-height:1.9;color:#6f555d}
+.letter-sign span{margin-left:.3em;font-size:15px;color:var(--rose-deep)}
+.letter-done{display:flex;width:max-content;margin:26px auto 0;opacity:0;animation:letterIn .7s var(--ease) forwards;animation-delay:.66s}
+
+/* ---------- 特效 ---------- */
+.burst-heart{position:fixed;z-index:600;pointer-events:none;left:var(--x);top:var(--y);font-size:var(--size,12px);line-height:1;animation:burst .9s cubic-bezier(.2,.7,.3,1) forwards}
+
+/* ---------- 动效 ---------- */
+@keyframes introIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes heartPulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.05);opacity:1}}
+@keyframes notePulse{0%,100%{opacity:.5;transform:translateY(-.5px) scale(.96)}50%{opacity:1;transform:translateY(-.5px) scale(1.08)}}
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes cueDrop{0%{transform:scaleY(.2);transform-origin:top;opacity:0}35%{opacity:1}100%{transform:scaleY(1);transform-origin:top;opacity:0}}
+@keyframes burst{0%{opacity:1;transform:translate(-50%,-50%) scale(.4) rotate(0)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.05) rotate(var(--rot))}}
+@keyframes linePop{0%{opacity:.2;transform:translateY(5px)}100%{opacity:1;transform:none}}
+@keyframes letterIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1080px){
+  .field{height:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 24px;padding:12px 8px 0}
+  .field-center{position:relative;left:auto;top:auto;transform:none;grid-column:1/-1;justify-self:center;margin:0 auto 10px}
+  .field-center::before{display:none}
+  .memory-card{position:relative;left:auto;top:auto;width:min(100%,330px);justify-self:center;margin:0}
+  .card-paper{transform:none}
+  .memory-card:hover .card-paper{transform:translateY(-4px)}
+  .field-hint{margin-top:38px}
+}
+@media (max-width:900px){
+  .page{width:calc(100% - 38px)}
+  .nav{padding:13px 20px}
+  .nav-link{display:none}
+  .hero{min-height:auto;padding:104px 0 70px}
+  .hero h1{font-size:clamp(42px,9vw,58px)}
+  .hero-heart{width:min(480px,88vw)}
+  .modal{grid-template-columns:1fr;height:auto;max-height:92vh;max-height:92dvh;overflow-y:auto;overflow-x:hidden}
+  .modal-media{height:330px;padding:14px}
+  .modal-copy{padding:28px 26px 24px;overflow:visible}
+  .letter-paper{padding:42px 32px 28px}
+  .letter-paper::before{left:28px}
+  .letter-body{font-size:16px;line-height:34px}
+  .letter-paper{background-image:repeating-linear-gradient(to bottom,transparent 0 33px,rgba(236,204,213,.14) 33px 34px)}
+}
+@media (max-width:720px){
+  .page{width:calc(100% - 28px)}
+  .brand{font-size:12px;letter-spacing:.08em}
+  .brand-heart{width:14px}
+  .music-btn{padding:6px 10px}
+  .music-label{font-size:9px}
+  .hero{padding-top:96px}
+  .hero h1{font-size:clamp(38px,11vw,52px);letter-spacing:.05em}
+  .hero-sub{font-size:13px;line-height:1.9}
+  .hero-actions{gap:18px;margin-top:28px}
+  .hero-meta{font-size:9px;gap:10px}
+  .scroll-cue{display:none}
+  .section-head{margin-bottom:36px}
+  .field{grid-template-columns:1fr;gap:30px}
+  .memory-card{width:min(100%,330px)}
+  .letter-card,.promise-card{padding:48px 18px 44px;border-radius:12px}
+  .letter-card h2,.promise-card h2{font-size:clamp(25px,6.8vw,32px)}
+  .envelope{width:min(310px,84vw)}
+  .wishes{gap:9px 18px;max-width:340px}
+  .overlay{padding:12px}
+  .modal{border-radius:12px;max-height:94vh;max-height:94dvh}
+  .stage.has-photo{padding:14px}
+  .illus-icon{width:82px;height:82px}
+  .illus-ring{width:180px;height:180px}
+  .letter-paper{padding:38px 22px 26px;border-radius:6px}
+  .letter-paper::before{display:none}
+  .letter-head h3{font-size:23px}
+  .letter-greeting{font-size:18px}
+  .letter-body{font-size:15.5px;line-height:32px;background-image:none}
+  .letter-paper{background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(236,204,213,.13) 31px 32px)}
+  .letter-sign{font-size:16px}
+  .letter-done{padding:11px 20px;font-size:12px}
+  .footer{padding-bottom:30px}
+}
+@media (max-width:380px){
+  .nav-link{display:none}
+  .music-label{display:none}
+  .hero h1{font-size:36px}
+  .intro-title{font-size:32px}
+  .intro-note{font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+  .grain{display:none}
+  .hero .reveal,.reveal,.memory-card{opacity:1 !important;transform:none !important}
+}
+</style>
+</head>
+<body class="locked">
+
+<div class="grain" aria-hidden="true"></div>
+<div class="fx" id="fx" aria-hidden="true"></div>
+
+<!-- 开场 -->
+<div class="intro" id="intro">
+  <div class="intro-inner">
+    <div class="intro-heart" aria-hidden="true">
+      <svg viewBox="0 0 32 30" fill="none" stroke="currentColor" stroke-width="1.1">
+        <path d="M16 27S3 18.4 3 9.6C3 4.6 6.8 2 10.5 2c2.3 0 4.2 1.2 5.5 3 1.3-1.8 3.2-3 5.5-3C25.2 2 29 4.6 29 9.6 29 18.4 16 27 16 27z"/>
+      </svg>
+    </div>
+    <span class="intro-kicker">TO MY FAVORITE GIRL</span>
+    <h1 class="intro-title">给最可爱的<span id="introAccent">小鹿</span></h1>
+    <p class="intro-note">这里收着 <b data-count>8</b> 段小小的回忆，<br></p>
+    <button class="btn intro-btn" id="openBtn" type="button">打开我们的回忆 <span class="btn-arrow" aria-hidden="true">→</span></button>
+    <p class="intro-tip"></p>
+  </div>
+</div>
+
+<!-- 顶部 -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top">
+    <svg class="brand-heart" viewBox="0 0 32 30" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+      <path d="M16 27S3 18.4 3 9.6C3 4.6 6.8 2 10.5 2c2.3 0 4.2 1.2 5.5 3 1.3-1.8 3.2-3 5.5-3C25.2 2 29 4.6 29 9.6 29 18.4 16 27 16 27z"/>
+    </svg>
+    <span></span>
+  </a>
+  <div class="nav-right">
+    <a class="nav-link" href="#memories">回忆</a>
+    <a class="nav-link" href="#letter">那封信</a>
+    <button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="播放背景音乐">
+      <span class="music-note" aria-hidden="true">♪</span>
+      <span class="music-label">音乐</span>
+    </button>
+  </div>
+</header>
+
+<main class="site" id="top">
+  <!-- 首屏 -->
+  <section class="hero page">
+    <svg class="hero-heart" viewBox="0 0 32 30" fill="none" stroke="currentColor" stroke-width=".55" aria-hidden="true">
+      <path d="M16 27S3 18.4 3 9.6C3 4.6 6.8 2 10.5 2c2.3 0 4.2 1.2 5.5 3 1.3-1.8 3.2-3 5.5-3C25.2 2 29 4.6 29 9.6 29 18.4 16 27 16 27z"/>
+    </svg>
+    <span class="eyebrow reveal" style="--d:.08s">A LITTLE MUSEUM OF US</span>
+    <h1 class="reveal" style="--d:.16s"><em></em></h1>
+    <p class="hero-sub reveal" style="--d:.24s">和你有关的每一件小事<br></p>
+    <div class="hero-meta reveal" style="--d:.32s">
+      <span><b data-count>8</b> 段回忆</span>
+      <i aria-hidden="true"></i>
+      <span id="daysChip">未完待续</span>
+    </div>
+    <div class="hero-actions reveal" style="--d:.4s">
+      <a class="btn" href="#memories">翻开第一页 <span class="btn-arrow" aria-hidden="true">↓</span></a>
+      <a class="link-arrow" href="#letter">有一封信给你 <span aria-hidden="true">→</span></a>
+    </div>
+    <a class="scroll-cue" href="#memories">往下看</a>
+  </section>
+
+  <!-- 回忆 -->
+  <section class="memories" id="memories">
+    <div class="page">
+      <div class="section-head reveal">
+        <span class="eyebrow center">MEMORY CLOUD</span>
+        <h2>一些关于我们的小事</h2>
+        <p>点开每一段，看看那天留下的照片和悄悄话。</p>
+      </div>
+
+      <div class="field" id="field">
+        <div class="field-center">
+          <span class="center-count"><span id="centerCount">08</span> <em>/ ∞</em></span>
+          <span class="center-rule" aria-hidden="true"></span>
+          <p>一些小事，<br>和一些很喜欢你的瞬间。</p>
+        </div>
+      </div>
+      <p class="field-hint">每一段都可以点开</p>
+    </div>
+  </section>
+
+  <!-- 信 -->
+  <section class="letter-section" id="letter">
+    <div class="page">
+      <div class="letter-card reveal">
+        <span class="eyebrow center">A LETTER FOR YOU</span>
+        <h2>有一封信，<em>写给你</em></h2>
+        <p class="letter-sub">有些话，想慢慢地告诉你。</p>
+
+        <button class="envelope" id="letterBtn" type="button" aria-label="拆开写给你的信">
+          <svg class="env-svg" viewBox="0 0 360 280" aria-hidden="true">
+            <defs>
+              <linearGradient id="envBack" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#f4e7ea"/>
+                <stop offset="1" stop-color="#ecdade"/>
+              </linearGradient>
+              <linearGradient id="envFront" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#f8eef1"/>
+                <stop offset="1" stop-color="#f1e0e4"/>
+              </linearGradient>
+              <linearGradient id="envFlap" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#eedde1"/>
+                <stop offset="1" stop-color="#e7d1d6"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="180" cy="264" rx="136" ry="10" fill="#e9dadd" opacity=".55"/>
+            <g transform="rotate(-2 180 120)">
+              <rect x="48" y="-8" width="264" height="164" rx="7" fill="#fffdfb" stroke="#f0e2e6" stroke-width="1.5"/>
+              <text id="envTo" x="180" y="27" text-anchor="middle" font-family="Kaiti SC, STKaiti, KaiTi, serif" font-size="16" fill="#a97b89">To 宝宝</text>
+              <path d="M72 47h216M72 67h180M72 87h204" stroke="#f2e4e7" stroke-width="1.5" stroke-linecap="round"/>
+            </g>
+            <rect x="14" y="34" width="332" height="204" rx="16" fill="url(#envBack)"/>
+            <path d="M14 238V100l166 66 166-66v138z" fill="url(#envFront)" stroke="#e6d0d5" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M14 34l166 132 166-132z" fill="url(#envFlap)" stroke="#e1c9cf" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M14 34h332" stroke="#e8d5d9" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="180" cy="166" r="31" fill="#b9798b" stroke="#fffaf8" stroke-width="2.5"/>
+            <text x="180" y="177" text-anchor="middle" font-size="28" fill="#fff" font-family="Arial, sans-serif">♡</text>
+          </svg>
+          <span class="env-hint">轻一点，拆开看看</span>
+        </button>
+        <p class="letter-tip"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 未完待续 -->
+  <section class="promise" id="promise">
+    <div class="page">
+      <div class="promise-card reveal">
+        <span class="eyebrow center">TO BE CONTINUED</span>
+        <h2><br><em>未完待续</em></h2>
+        <p class="promise-sub">还想和你一起，做很多很多小事。</p>
+        <div class="wishes" id="wishes"></div>
+        <button class="love-btn" id="loveBtn" type="button">戳我一下 <span aria-hidden="true">♡</span></button>
+        <p class="love-line" id="loveLine">今天也很喜欢你。</p>
+        <p class="promise-sign">— 爱你的 <span data-me>我</span></p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Made with <span>♡</span> for <span data-her>宝宝</span></p>
+    <p class="tiny">我们的回忆馆 · <span id="year">2026</span></p>
+  </footer>
+</main>
+
+<!-- 回忆弹层 -->
+<div class="overlay" id="memoryOverlay" aria-hidden="true" inert>
+  <div class="overlay-backdrop" data-close="memory"></div>
+  <article class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <button class="modal-close" type="button" data-close="memory" aria-label="关闭回忆">✕</button>
+    <div class="modal-media">
+      <div class="stage" id="stage"></div>
+      <div class="media-strip" id="mediaStrip" hidden></div>
+    </div>
+    <div class="modal-copy">
+      <span class="m-index" id="mIndex">MEMORY 01 / 08</span>
+      <h3 id="mTitle">第一次约会</h3>
+      <p class="m-sub" id="mSub"></p>
+      <div class="m-rule"></div>
+      <p class="m-note" id="mNote"></p>
+      <p class="m-quote" id="mQuote"></p>
+      <div class="m-chips">
+        <span class="m-chip" id="mTag">心动</span>
+        <span class="m-chip">好好收藏</span>
+      </div>
+      <div class="m-nav">
+        <button type="button" id="prevMemory">← 上一段</button>
+        <span class="m-count" id="mCount">01 / 08</span>
+        <button type="button" id="nextMemory">下一段 →</button>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- 信纸弹层 -->
+<div class="overlay letter-overlay" id="letterOverlay" aria-hidden="true" inert>
+  <div class="overlay-backdrop" data-close="letter"></div>
+  <article class="letter-paper" role="dialog" aria-modal="true" aria-labelledby="letterTitle">
+    <button class="modal-close" type="button" data-close="letter" aria-label="关闭信纸">✕</button>
+    <header class="letter-head">
+      <span class="eyebrow center">A LETTER FOR YOU</span>
+      <h3 id="letterTitle">写给你的信</h3>
+    </header>
+    <p class="letter-greeting" id="letterGreeting">宝宝：</p>
+    <div class="letter-body" id="letterBody"></div>
+    <p class="letter-ps" id="letterPs"></p>
+    <p class="letter-sign" id="letterSign"></p>
+    <button class="btn letter-done" type="button" data-close="letter">把信收好 <span aria-hidden="true">♡</span></button>
+  </article>
+</div>
+
+<script>
+/* =========================================================
+   我们的回忆馆 · 交互
+   想改名字 / 日期 / 文案 / 照片：改下面的 CONFIG 即可
+   ========================================================= */
+const CONFIG = {
+  herName: "小鹿",
+  myName: "zlz",
+  /* 想显示"在一起第几天"，填 "2024-05-20" 这样的日期；留空就不显示 */
+  since: "2024-10-20",
+
+  memories: [
+    {
+      no: "01",
+      title: "第一次约会",
+      sub:"那天的风都是甜的。",
+      tag: "心动",
+      icon: "date",
+      theme: "rose",
+      x: "2%", y: "4%", w: 300, r: -1.2,
+      photos: "photos/01",
+      note: "",
+      quote:  "第一次和你约会，我紧张的手都不敢牵。可你也在给我机会，我忽然觉得，今天天气真好。",
+      moment: "那天的风很轻，心跳很响。"
+    },
+    {
+      no: "02",
+      title: "一起看电影",
+      sub: "灯暗下来，你在我身边",
+      tag: "电影",
+      icon: "movie",
+      theme: "blue",
+      x: "35.5%", y: "0.5%", w: 280, r: 1,
+      photos: "photos/02",
+      note: "电影演了什么，我其实没太记住。只记得和你牵手是那一刻最幸福的事情。",
+      quote: "最好的位置，是你旁边。",
+      moment: "和女朋友看电影真的好爽。"
+    },
+    {
+      no: "03",
+      title: "一起吃麦麦",
+      sub: "薯条要分你一半的那种",
+      tag: "爽吃",
+      icon: "fries",
+      theme: "sand",
+      x: "70.5%", y: "5%", w: 300, r: 1.4,
+      photos: "photos/03",
+      note:"第一次吃麦当劳，还有很多第一次",
+      quote:  "你说薯条要趁热吃。",
+      moment: "好吃爱吃！"
+    },
+    {
+      no: "04",
+      title: "因为你爱上螺蛳粉",
+      sub: "从“好臭”到“真香”",
+      tag: "真香",
+      icon: "noodles",
+      theme: "peach",
+      x: "0.5%", y: "36%", w: 290, r: .8,
+      photos: "photos/04",
+      note: "原来喜欢一个人，连她的口味都会慢慢变成我的嘻嘻。",
+      quote: "嗦一碗",
+      moment: "真香警告啦。"
+    },
+    {
+      no: "05",
+      title: "宝宝送我的小蛋糕",
+      sub: "甜到心里去的小蛋糕",
+      tag: "小蛋糕",
+      icon: "cake",
+      theme: "blush",
+      x: "74%", y: "34%", w: 300, r: -1,
+      photos: "photos/05",
+      note: "蛋糕很甜，但没有你甜哈哈哈哈。",
+      quote: "好漂亮的蛋糕，送的人肯定也很漂亮",
+      moment: "原来我也可以被送蛋糕。"
+    },
+    {
+      no: "06",
+      title: "女朋友送的生日礼物才是最好的",
+      sub: "因为是你，所以最好",
+      tag: "礼物",
+      icon: "gift",
+      theme: "sage",
+      x: "4%", y: "65%", w: 300, r: 1.1,
+      photos: "photos/06",
+      note: "还记得高三时的那个礼物，是我收到的第一份正式的礼物",
+      quote: "最好的礼物，是送礼物的人。",
+      moment: "这份心意，我会记得。"
+    },
+    {
+      no: "07",
+      title: "一起吃吃吃",
+      sub: "和你吃饭，吃什么都香",
+      tag: "一起吃",
+      icon: "plate",
+      theme: "cream",
+      x: "31%", y: "71%", w: 290, r: -.8,
+      photos: "photos/07",
+      note: "火锅、米线、螺蛳粉、奶茶……",
+      quote: "今天吃什么？",
+      moment: "下一顿，也要一起吃。"
+    },
+    {
+      no: "08",
+      title: "我女朋友最可爱",
+      sub: "最",
+      tag: "可爱",
+      icon: "crown",
+      theme: "lilac",
+      x: "61%", y: "64%", w: 340, r: -1.2,
+      photos: "photos/08",
+      note:"为什么这么可爱",
+      quote: "吃饭也可爱，站着也可爱，坐着也可爱，呼吸也可爱",
+      moment: "为什么这么可爱!"
+    }
+  ],
+
+  letter: {
+    title: "写给你的信",
+    greeting: "{her}：",
+    paragraphs: [
+      "是你陪我吃麦当劳，陪我在电影院里牵手，也谢谢你让我知道，螺蛳粉原来可以这么香......",
+      "还有你送我的生日礼物，我一直觉得那是全世界最好的——不是因为礼物，是因为送礼物的人是你。"
+    ],
+    ps: "",
+    signature: "爱你的"
+  },
+
+  wishes: [
+    "一起去看海",
+    "一起逛超市",
+    "一起吃遍整条街",
+    "一起过下一个生日",
+    "一起拍很多照片",
+    "一起看一场日落"
+  ],
+
+  loveLines: [
+    "今天也很喜欢你。",
+    "想和你吃好多好多好吃的。",
+    "和你在一起超级爽。",
+    "你最可爱",
+    "下次还一起去吃螺蛳粉。",
+    "今天想见你。"
+  ]
+};
+
+(() => {
+  "use strict";
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const params = new URLSearchParams(location.search);
+  const PREVIEW = params.has("preview");
+
+  const esc = (value) => String(value).replace(/[&<>"']/g, (ch) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[ch]));
+  const vars = (value) => String(value)
+    .replace(/\{her\}/g, CONFIG.herName)
+    .replace(/\{me\}/g, CONFIG.myName);
+  const pad = (n) => String(n).padStart(2, "0");
+
+  const ICONS = {
+    date: `<path d="M18 30h22v11a10 10 0 0 1-10 10h-2a10 10 0 0 1-10-10V30Z"/><path d="M40 33h4a5 5 0 0 1 0 10h-4"/><path d="M16 55h28"/><path d="M27 21c-2-3 2-4 0-7M34 21c-2-3 2-4 0-7"/>`,
+    movie: `<rect x="14" y="27" width="36" height="23" rx="2"/><path d="M14 27l4-9 36 4-4 9"/><path d="M22 18l2 8M32 20l2 8M42 21l2 8"/>`,
+    fries: `<path d="M21 27l3 25h16l3-25z"/><path d="M26 27V14M32 27V10M38 27V15M41 27V19"/><path d="M21 27h22"/>`,
+    noodles: `<path d="M13 29h38c0 11-9 19-19 19s-19-8-19-19Z"/><path d="M18 52h28"/><path d="M25 20c-3-4 3-6 0-10M34 20c-3-4 3-6 0-10"/><path d="M40 14l-7 15M46 16l-7 15"/>`,
+    cake: `<path d="M18 52V36h28v16"/><path d="M18 42h28M18 48h28"/><path d="M32 36V26"/><path d="M32 26c-3-3 0-6 0-6s3 3 0 6Z"/>`,
+    gift: `<rect x="16" y="30" width="32" height="23" rx="2"/><rect x="14" y="23" width="36" height="8" rx="2"/><path d="M32 23v30"/><path d="M32 23c-5 0-10-2-10-6s6-5 10 6ZM32 23c5 0 10-2 10-6s-6-5-10 6Z"/>`,
+    plate: `<ellipse cx="32" cy="40" rx="20" ry="7"/><path d="M12 40c2 6 10 10 20 10s18-4 20-10"/><circle cx="24" cy="36" r="5"/><circle cx="34" cy="34" r="5"/><circle cx="43" cy="36" r="5"/><path d="M26 21c-2-3 2-4 0-7M35 19c-2-3 2-4 0-7"/>`,
+    crown: `<path d="M14 41l-3-17 12 8 9-13 9 13 12-8-3 17H14Z"/><path d="M17 47h30"/><path d="M26 34h12"/>`
+  };
+
+  function iconSVG(name, className = "scene-icon") {
+    return `<svg class="${className}" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ICONS.date}</svg>`;
+  }
+
+  /* ---------- 文案绑定 ---------- */
+  document.title = `给${CONFIG.herName}的回忆馆`;
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.content = document.title;
+  $$("[data-her]").forEach((el) => { el.textContent = CONFIG.herName; });
+  $$("[data-me]").forEach((el) => { el.textContent = CONFIG.myName; });
+  $$("[data-count]").forEach((el) => { el.textContent = CONFIG.memories.length; });
+  $("#introAccent").textContent = CONFIG.herName;
+  $("#envTo").textContent = `To ${CONFIG.herName}`;
+  $("#centerCount").textContent = pad(CONFIG.memories.length);
+  $("#year").textContent = new Date().getFullYear();
+
+  const since = CONFIG.since ? new Date(`${CONFIG.since}T00:00:00`) : null;
+  if (since && !Number.isNaN(since.getTime())) {
+    const today = new Date();
+    const startDay = new Date(since.getFullYear(), since.getMonth(), since.getDate());
+    const nowDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const days = Math.max(1, Math.round((nowDay - startDay) / 86400000) + 1);
+    $("#daysChip").textContent = `在一起第 ${days} 天`;
+  }
+
+  /* ---------- 回忆卡片 ---------- */
+  const field = $("#field");
+  const cards = [];
+
+  CONFIG.memories.forEach((memory, index) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = `memory-card theme-${memory.theme}`;
+    card.dataset.index = String(index);
+    card.style.setProperty("--x", memory.x);
+    card.style.setProperty("--y", memory.y);
+    card.style.setProperty("--w", `${memory.w}px`);
+    card.style.setProperty("--r", `${memory.r}deg`);
+    card.style.setProperty("--dur", `${7 + (index % 4) * 0.6}s`);
+    card.style.setProperty("--delay", `${-index * 0.7}s`);
+    if (vars(memory.title).length > 12) card.classList.add("long-title");
+    card.setAttribute("aria-label", `打开回忆：${vars(memory.title)}`);
+    card.innerHTML = `
+      <span class="card-float">
+        <span class="card-paper">
+          <span class="scene-wrap">
+            ${iconSVG(memory.icon)}
+          </span>
+          <span class="card-body">
+            <span class="card-no">NO.${memory.no}</span>
+            <span class="card-title">${esc(vars(memory.title))}</span>
+            <span class="card-sub">${esc(vars(memory.sub))}</span>
+            <span class="card-open">查看回忆 <span aria-hidden="true">→</span></span>
+          </span>
+        </span>
+      </span>`;
+    card.addEventListener("click", () => openMemory(index));
+    field.appendChild(card);
+    cards.push(card);
+  });
+
+  /* ---------- 照片：自动查找 photos/01.jpg、photos/01-2.jpg … ---------- */
+  const photoPromises = new Map();
+  const photoLists = new Map();
+  const covered = new Set();
+
+  function loadImage(src) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(src);
+      img.onerror = () => resolve(null);
+      img.src = src;
+    });
+  }
+
+  async function discoverPhotos(base) {
+    if (!base) return [];
+    if (Array.isArray(base)) {
+      const found = [];
+      for (const src of base) {
+        if (await loadImage(src)) found.push(src);
+      }
+      return found;
+    }
+    const exts = ["jpg", "jpeg", "png", "webp"];
+    const found = [];
+    for (let n = 1; n <= 5; n += 1) {
+      let hit = null;
+      const stem = n === 1 ? base : `${base}-${n}`;
+      for (const ext of exts) {
+        const src = `${stem}.${ext}`;
+        if (await loadImage(src)) { hit = src; break; }
+      }
+      if (!hit) break;
+      found.push(hit);
+    }
+    return found;
+  }
+
+  function setCardCover(index, src) {
+    if (covered.has(index)) return;
+    covered.add(index);
+    const card = cards[index];
+    if (!card) return;
+    const wrap = card.querySelector(".scene-wrap");
+    if (!wrap) return;
+    const img = document.createElement("img");
+    img.className = "card-cover";
+    img.alt = `${vars(CONFIG.memories[index].title)}的照片`;
+    img.decoding = "async";
+    img.addEventListener("load", () => wrap.classList.add("has-photo"));
+    img.src = src;
+    if (img.complete && img.naturalWidth) wrap.classList.add("has-photo");
+    wrap.appendChild(img);
+  }
+
+  function ensurePhotos(index) {
+    if (photoPromises.has(index)) return photoPromises.get(index);
+    const promise = discoverPhotos(CONFIG.memories[index].photos)
+      .then((list) => {
+        photoLists.set(index, list);
+        if (list.length) setCardCover(index, list[0]);
+        return list;
+      })
+      .catch(() => []);
+    photoPromises.set(index, promise);
+    return promise;
+  }
+
+  /* ---------- 弹层 & 焦点 ---------- */
+  const memoryOverlay = $("#memoryOverlay");
+  const letterOverlay = $("#letterOverlay");
+  const stage = $("#stage");
+  const strip = $("#mediaStrip");
+  const closeMemoryBtn = $(".modal-close", memoryOverlay);
+  let lockCount = 0;
+  let currentIndex = 0;
+  let lastTrigger = null;
+  let gallery = { list: [], index: 0 };
+
+  function lockBody() {
+    lockCount += 1;
+    document.body.classList.add("locked");
+  }
+  function unlockBody() {
+    lockCount = Math.max(0, lockCount - 1);
+    if (!lockCount) document.body.classList.remove("locked");
+  }
+
+  function illustrationHTML(memory) {
+    return `
+      <div class="illus">
+        <span class="illus-number" aria-hidden="true">${memory.no}</span>
+        <span class="illus-ring" aria-hidden="true"></span>
+        ${iconSVG(memory.icon, "illus-icon")}
+        <div class="illus-card">
+          <span>MEMORY ${memory.no} · ${esc(vars(memory.tag))}</span>
+          <p>${esc(vars(memory.moment || memory.quote))}</p>
+        </div>
+      </div>`;
+  }
+
+  function setSlide(next) {
+    if (gallery.list.length < 2) return;
+    gallery.index = (next + gallery.list.length) % gallery.list.length;
+    const img = $("#mainPhoto", stage);
+    if (img) {
+      img.src = gallery.list[gallery.index];
+      img.alt = `${vars(CONFIG.memories[currentIndex].title)}的照片 ${gallery.index + 1}`;
+    }
+    const count = $(".gal-count", stage);
+    if (count) count.textContent = `${gallery.index + 1} / ${gallery.list.length}`;
+    $$(".thumb", strip).forEach((thumb, i) => thumb.classList.toggle("on", i === gallery.index));
+  }
+
+  function renderMedia(memory, photos) {
+    stage.className = `stage theme-${memory.theme}`;
+    if (photos && photos.length) {
+      gallery = { list: photos, index: 0 };
+      stage.classList.add("has-photo");
+      stage.innerHTML = `
+        <div class="photo-mat">
+          <img id="mainPhoto" src="${esc(photos[0])}" alt="${esc(vars(memory.title))}的照片 1">
+        </div>
+        ${photos.length > 1 ? `
+          <button class="gal-btn prev" type="button" aria-label="上一张照片">‹</button>
+          <button class="gal-btn next" type="button" aria-label="下一张照片">›</button>
+          <span class="gal-count">1 / ${photos.length}</span>` : ""}`;
+      strip.hidden = photos.length < 2;
+      strip.innerHTML = photos.map((src, i) => `
+        <button class="thumb${i === 0 ? " on" : ""}" type="button" data-i="${i}" aria-label="第 ${i + 1} 张照片">
+          <img src="${esc(src)}" alt="">
+        </button>`).join("");
+      $$(".gal-btn", stage).forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          event.stopPropagation();
+          setSlide(gallery.index + (btn.classList.contains("next") ? 1 : -1));
+        });
+      });
+      $$(".thumb", strip).forEach((thumb) => {
+        thumb.addEventListener("click", () => setSlide(Number(thumb.dataset.i)));
+      });
+      let touchX = null;
+      stage.addEventListener("touchstart", (event) => {
+        touchX = event.touches[0] ? event.touches[0].clientX : null;
+      }, { passive: true });
+      stage.addEventListener("touchend", (event) => {
+        if (touchX === null || !event.changedTouches[0]) return;
+        const dx = event.changedTouches[0].clientX - touchX;
+        touchX = null;
+        if (Math.abs(dx) < 45) return;
+        if (gallery.list.length > 1) setSlide(gallery.index + (dx < 0 ? 1 : -1));
+        else openMemory(currentIndex + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+    } else {
+      gallery = { list: [], index: 0 };
+      stage.classList.add("has-illus");
+      stage.innerHTML = illustrationHTML(memory);
+      strip.hidden = true;
+      strip.innerHTML = "";
+    }
+  }
+
+  function renderCopy(memory) {
+    const total = pad(CONFIG.memories.length);
+    $("#mIndex").textContent = `MEMORY ${memory.no} / ${total}`;
+    $("#mTitle").textContent = vars(memory.title);
+    $("#mSub").textContent = vars(memory.sub);
+    $("#mNote").textContent = vars(memory.note);
+    $("#mQuote").textContent = `“${vars(memory.quote)}”`;
+    $("#mTag").textContent = vars(memory.tag);
+    $("#mCount").textContent = `${memory.no} / ${total}`;
+  }
+
+  function openMemory(index) {
+    const wasOpen = memoryOverlay.classList.contains("open");
+    if (!wasOpen) lastTrigger = document.activeElement;
+    currentIndex = ((index % CONFIG.memories.length) + CONFIG.memories.length) % CONFIG.memories.length;
+    const memory = CONFIG.memories[currentIndex];
+    const known = photoLists.get(currentIndex) || [];
+    const hadPhotos = known.length > 0;
+
+    if (!wasOpen) lockBody();
+    memoryOverlay.classList.add("open");
+    memoryOverlay.setAttribute("aria-hidden", "false");
+    memoryOverlay.removeAttribute("inert");
+    renderCopy(memory);
+    renderMedia(memory, known);
+    $(".modal-copy", memoryOverlay).scrollTop = 0;
+
+    const requested = currentIndex;
+    ensurePhotos(requested).then((list) => {
+      if (!memoryOverlay.classList.contains("open") || currentIndex !== requested) return;
+      if (!hadPhotos && list.length) renderMedia(CONFIG.memories[requested], list);
+    });
+
+    if (!wasOpen) requestAnimationFrame(() => closeMemoryBtn.focus({ preventScroll: true }));
+  }
+
+  function closeMemory() {
+    if (!memoryOverlay.classList.contains("open")) return;
+    memoryOverlay.classList.remove("open");
+    memoryOverlay.setAttribute("aria-hidden", "true");
+    memoryOverlay.setAttribute("inert", "");
+    unlockBody();
+    if (lastTrigger && document.contains(lastTrigger)) lastTrigger.focus({ preventScroll: true });
+  }
+
+  $("#prevMemory").addEventListener("click", () => openMemory(currentIndex - 1));
+  $("#nextMemory").addEventListener("click", () => openMemory(currentIndex + 1));
+  $$('[data-close="memory"]', memoryOverlay).forEach((el) => el.addEventListener("click", closeMemory));
+
+  /* ---------- 信 ---------- */
+  function buildLetter() {
+    $("#letterTitle").textContent = vars(CONFIG.letter.title);
+    $("#letterGreeting").textContent = vars(CONFIG.letter.greeting);
+    const body = $("#letterBody");
+    body.innerHTML = "";
+    CONFIG.letter.paragraphs.forEach((paragraph, i) => {
+      const p = document.createElement("p");
+      p.textContent = vars(paragraph);
+      p.style.setProperty("--i", i);
+      body.appendChild(p);
+    });
+    const ps = $("#letterPs");
+    if (CONFIG.letter.ps) {
+      ps.hidden = false;
+      ps.textContent = vars(CONFIG.letter.ps);
+    } else {
+      ps.hidden = true;
+    }
+    const sign = $("#letterSign");
+    sign.textContent = vars(CONFIG.letter.signature);
+    const name = document.createElement("span");
+    name.textContent = CONFIG.myName;
+    sign.appendChild(name);
+  }
+
+  function openLetter() {
+    if (letterOverlay.classList.contains("open")) return;
+    letterOverlay.classList.add("open");
+    letterOverlay.setAttribute("aria-hidden", "false");
+    letterOverlay.removeAttribute("inert");
+    lockBody();
+    buildLetter();
+    requestAnimationFrame(() => $(".modal-close", letterOverlay).focus({ preventScroll: true }));
+  }
+
+  function closeLetter() {
+    if (!letterOverlay.classList.contains("open")) return;
+    letterOverlay.classList.remove("open");
+    letterOverlay.setAttribute("aria-hidden", "true");
+    letterOverlay.setAttribute("inert", "");
+    unlockBody();
+    const trigger = $("#letterBtn");
+    if (trigger) trigger.focus({ preventScroll: true });
+    setTimeout(() => trigger && trigger.classList.remove("is-opening"), 450);
+  }
+
+  $$('[data-close="letter"]', letterOverlay).forEach((el) => el.addEventListener("click", closeLetter));
+  $("#letterBtn").addEventListener("click", (event) => {
+    const btn = event.currentTarget;
+    btn.classList.add("is-opening");
+    setTimeout(openLetter, 240);
+  });
+
+  /* ---------- 小心愿 ---------- */
+  const wishes = $("#wishes");
+  CONFIG.wishes.forEach((wish) => {
+    const span = document.createElement("span");
+    span.className = "wish";
+    span.textContent = vars(wish);
+    wishes.appendChild(span);
+  });
+
+  const loveBtn = $("#loveBtn");
+  const loveLine = $("#loveLine");
+  let lastLine = -1;
+  loveBtn.addEventListener("click", () => {
+    const rect = loveBtn.getBoundingClientRect();
+    burstAt(rect.left + rect.width / 2, rect.top + rect.height / 2, 10);
+    let next = Math.floor(Math.random() * CONFIG.loveLines.length);
+    if (CONFIG.loveLines.length > 1 && next === lastLine) next = (next + 1) % CONFIG.loveLines.length;
+    lastLine = next;
+    loveLine.textContent = vars(CONFIG.loveLines[next]);
+    loveLine.classList.remove("pop");
+    void loveLine.offsetWidth;
+    loveLine.classList.add("pop");
+  });
+
+  /* ---------- 键盘 ---------- */
+  function trapFocus(event, root) {
+    const items = $$('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', root)
+      .filter((el) => !el.disabled && el.getClientRects().length > 0);
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (letterOverlay.classList.contains("open")) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeLetter();
+      } else if (event.key === "Tab") {
+        trapFocus(event, letterOverlay);
+      }
+      return;
+    }
+    if (memoryOverlay.classList.contains("open")) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeMemory();
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        openMemory(currentIndex + 1);
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        openMemory(currentIndex - 1);
+      } else if (event.key === "Tab") {
+        trapFocus(event, memoryOverlay);
+      }
+    }
+  });
+
+  /* ---------- 背景音乐（浏览器实时合成八音盒） ---------- */
+  const Music = (() => {
+    const AudioCtor = window.AudioContext || window.webkitAudioContext;
+    const BEAT = 0.45;
+    const NOTES = {
+      C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46,
+      G5: 783.99, A5: 880.00, B5: 987.77, C6: 1046.50
+    };
+    const MELODY = [
+      ["C5", 1], ["C5", 1], ["G5", 1], ["G5", 1], ["A5", 1], ["A5", 1], ["G5", 2],
+      ["F5", 1], ["F5", 1], ["E5", 1], ["E5", 1], ["D5", 1], ["D5", 1], ["C5", 2],
+      ["G5", 1], ["G5", 1], ["F5", 1], ["F5", 1], ["E5", 1], ["E5", 1], ["D5", 2],
+      ["G5", 1], ["G5", 1], ["F5", 1], ["F5", 1], ["E5", 1], ["E5", 1], ["D5", 2],
+      ["C5", 1], ["C5", 1], ["G5", 1], ["G5", 1], ["A5", 1], ["A5", 1], ["G5", 2],
+      ["F5", 1], ["F5", 1], ["E5", 1], ["E5", 1], ["D5", 1], ["D5", 1], ["C5", 2]
+    ];
+    let ctx = null;
+    let master = null;
+    let timer = null;
+    let nextTime = 0;
+    let step = 0;
+    let on = false;
+
+    function makeImpulse(seconds, decay) {
+      const rate = ctx.sampleRate;
+      const length = Math.floor(rate * seconds);
+      const buffer = ctx.createBuffer(2, length, rate);
+      for (let channel = 0; channel < 2; channel += 1) {
+        const data = buffer.getChannelData(channel);
+        for (let i = 0; i < length; i += 1) {
+          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
+        }
+      }
+      return buffer;
+    }
+
+    function init() {
+      if (ctx || !AudioCtor) return;
+      ctx = new AudioCtor();
+      master = ctx.createGain();
+      master.gain.value = 0.45;
+      master.connect(ctx.destination);
+      const convolver = ctx.createConvolver();
+      convolver.buffer = makeImpulse(2.8, 2.4);
+      const wet = ctx.createGain();
+      wet.gain.value = 0.28;
+      master.connect(convolver);
+      convolver.connect(wet);
+      wet.connect(ctx.destination);
+    }
+
+    function pluck(freq, time, duration, volume) {
+      if (!ctx) return;
+      const envelope = ctx.createGain();
+      envelope.gain.setValueAtTime(0.0001, time);
+      envelope.gain.exponentialRampToValueAtTime(volume, time + 0.012);
+      envelope.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+      envelope.connect(master);
+
+      const fundamental = ctx.createOscillator();
+      fundamental.type = "sine";
+      fundamental.frequency.value = freq;
+      fundamental.detune.value = (Math.random() - 0.5) * 3;
+      fundamental.connect(envelope);
+
+      const shimmer = ctx.createOscillator();
+      shimmer.type = "triangle";
+      shimmer.frequency.value = freq * 2.004;
+      const shimmerGain = ctx.createGain();
+      shimmerGain.gain.value = 0.14;
+      shimmer.connect(shimmerGain);
+      shimmerGain.connect(envelope);
+
+      fundamental.start(time);
+      shimmer.start(time);
+      fundamental.stop(time + duration + 0.05);
+      shimmer.stop(time + duration + 0.05);
+    }
+
+    function schedule() {
+      if (!on || !ctx) return;
+      while (nextTime < ctx.currentTime + 0.9) {
+        const [note, beats] = MELODY[step % MELODY.length];
+        const freq = NOTES[note];
+        pluck(freq, nextTime, 2.15, 0.13);
+        if (step % 4 === 0) pluck(freq / 2, nextTime, 2.5, 0.03);
+        nextTime += beats * BEAT;
+        step += 1;
+        if (step % MELODY.length === 0) nextTime += 1.5;
+      }
+    }
+
+    function updateUI() {
+      const button = $("#musicBtn");
+      if (!button) return;
+      button.classList.toggle("playing", on);
+      button.setAttribute("aria-pressed", String(on));
+      button.setAttribute("aria-label", on ? "关闭背景音乐" : "播放背景音乐");
+    }
+
+    function start() {
+      init();
+      if (!ctx) return;
+      ctx.resume().catch(() => {});
+      on = true;
+      step = 0;
+      nextTime = ctx.currentTime + 0.08;
+      if (timer) clearInterval(timer);
+      timer = setInterval(schedule, 180);
+      schedule();
+      updateUI();
+    }
+
+    function stop() {
+      on = false;
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+      if (ctx && ctx.state === "running") ctx.suspend().catch(() => {});
+      updateUI();
+    }
+
+    function toggle() {
+      if (on) stop();
+      else start();
+    }
+
+    return { start, stop, toggle, available: Boolean(AudioCtor) };
+  })();
+
+  const musicBtn = $("#musicBtn");
+  if (!Music.available) {
+    musicBtn.hidden = true;
+  } else {
+    musicBtn.addEventListener("click", () => Music.toggle());
+  }
+
+  /* ---------- 入场 ---------- */
+  const intro = $("#intro");
+  let revealsStarted = false;
+
+  function startReveals() {
+    if (revealsStarted) return;
+    revealsStarted = true;
+
+    if (!("IntersectionObserver" in window)) {
+      $$(".reveal").forEach((el) => el.classList.add("show"));
+      cards.forEach((card) => card.classList.add("in"));
+      cards.forEach((_, i) => ensurePhotos(i));
+      return;
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("show");
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+
+    $$(".reveal").forEach((el) => {
+      if (el.closest(".hero")) return;
+      revealObserver.observe(el);
+    });
+
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const index = Number(entry.target.dataset.index);
+        entry.target.classList.add("in");
+        ensurePhotos(index);
+        cardObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.01, rootMargin: "240px 0px 240px 0px" });
+
+    cards.forEach((card) => {
+      card.style.transitionDelay = `${Math.min(Number(card.dataset.index), 4) * 0.06}s`;
+      cardObserver.observe(card);
+    });
+
+    setTimeout(() => cards.forEach((card) => card.classList.add("in")), 2600);
+  }
+
+  function enterSite(withMusic = true) {
+    if (document.body.classList.contains("opened")) return;
+    intro.classList.add("closing");
+    document.body.classList.remove("locked");
+    document.body.classList.add("opened");
+    if (withMusic) Music.start();
+    startReveals();
+    setTimeout(() => {
+      intro.classList.add("gone");
+      intro.setAttribute("aria-hidden", "true");
+    }, 780);
+  }
+
+  $("#openBtn").addEventListener("click", () => enterSite(true));
+
+  if (PREVIEW) {
+    intro.classList.add("gone");
+    intro.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("locked");
+    document.body.classList.add("opened");
+    startReveals();
+    if (params.has("open")) {
+      const index = Number(params.get("open"));
+      if (!Number.isNaN(index)) setTimeout(() => openMemory(index), 260);
+    }
+  }
+
+  /* ---------- 小心心 ---------- */
+  const fx = $("#fx");
+  const burstGlyphs = ["♡", "♡", "♡", "·"];
+  const burstTints = ["#b9798b", "#cf9eab", "#9d5f72"];
+
+  function burstAt(x, y, count = 10) {
+    if (reduceMotion) return;
+    for (let i = 0; i < count; i += 1) {
+      const el = document.createElement("span");
+      el.className = "burst-heart";
+      el.textContent = burstGlyphs[i % burstGlyphs.length];
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 36 + Math.random() * 84;
+      el.style.setProperty("--x", `${x}px`);
+      el.style.setProperty("--y", `${y}px`);
+      el.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+      el.style.setProperty("--dy", `${Math.sin(angle) * distance - 24}px`);
+      el.style.setProperty("--rot", `${(Math.random() - 0.5) * 120}deg`);
+      el.style.setProperty("--size", `${8 + Math.random() * 7}px`);
+      el.style.color = burstTints[i % burstTints.length];
+      fx.appendChild(el);
+      setTimeout(() => el.remove(), 950);
+    }
+  }
+})();
+</script>
+</body>
+</html>
